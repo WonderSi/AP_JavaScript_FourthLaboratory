@@ -1,46 +1,60 @@
-function ask_password(login, password, success, failure) {
+function askPassword(login, password, success, failure) {
 
     vowels = 'aeiouy';
 
-    login = toLowerCase(login);
-    password = toLowerCase(password);
+    login = login.toLowerCase();
+    password = password.toLowerCase();
 
     let vowelsCount = 0;
     for (const el of password) {
-        if (el in vowels) {
-            vowelsCount++
+        if (vowels.includes(el)) {
+            vowelsCount++;
         }
     }
 
-    let sequenceСonsonantsLogin = []
+    let sequenceConsonantsLogin = [];
     for (const el of login) {
         if (!vowels.includes(el)) {
-            sequenceСonsonantsLogin.push(el);
+            sequenceConsonantsLogin.push(el);
         }
     }
 
-    let sequenceСonsonantsPassword = []
-    for (const el of login) {
+    let sequenceConsonantsPassword = [];
+    for (const el of password) {
         if (!vowels.includes(el)) {
-            sequenceСonsonantsPassword.push(el);
+            sequenceConsonantsPassword.push(el);
         }
     }
 
-    if (vowelsCount != 3) {
-        failure();
+    const isVowelsWrong = vowelsCount !== 3;
+    const isConsonantsWrong = sequenceConsonantsLogin.join('') !== sequenceConsonantsPassword.join('');
+
+    if (isVowelsWrong && isConsonantsWrong) {
+        failure(login, "Everything is wrong");
+    } else if (isVowelsWrong) {
+        failure(login, "Wrong number of vowels");
+    } else if (isConsonantsWrong) {
+        failure(login, "Wrong consonants");
+    } else {
+        success(login);
     }
-
-
 }
 
 function main(login, password) {
-    const success = () => {
-
+    const success = (login) => {
+        console.log(`Привет, ${login}!`)
     }
 
-    const failure = () => {
-
+    const failure = (login, errorMessage) => {
+        console.log(`Кто-то пытался притвориться пользователем ${login}, но в
+пароле допустил ошибку: ${errorMessage.toUpperCase()}`)
     }
 
-    ask_password("login", "aalgn", success, failure)
+    askPassword(login, password, success, failure)
 }
+
+main("login", "aaalgn");
+main("login", "luagon");
+main("login", "aalgnn");
+main("login", "aaalgnx");
+main("login", "aalgn");
