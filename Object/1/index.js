@@ -15,12 +15,6 @@ function askPassword(login, password, success, failure) {
         }
     }
 
-    if (vowelsCount !== 3) {
-        failure(login, "Wrong number of vowels");
-        return;
-    }
-
-
     let sequenceConsonantsLogin = [];
     for (const el of login) {
         if (!vowels.includes(el)) {
