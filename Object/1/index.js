@@ -1,28 +1,30 @@
 function askPassword(login, password, success, failure) {
 
-    vowels = 'aeiouy';
+    const vowels = 'aeiouy';
 
     login = login.toLowerCase();
     password = password.toLowerCase();
 
     let vowelsCount = 0;
+    let sequenceConsonantsPassword = [];
     for (const el of password) {
         if (vowels.includes(el)) {
             vowelsCount++;
+        } else {
+            sequenceConsonantsPassword.push(el);
         }
     }
+
+    if (vowelsCount !== 3) {
+        failure(login, "Wrong number of vowels");
+        return;
+    }
+
 
     let sequenceConsonantsLogin = [];
     for (const el of login) {
         if (!vowels.includes(el)) {
             sequenceConsonantsLogin.push(el);
-        }
-    }
-
-    let sequenceConsonantsPassword = [];
-    for (const el of password) {
-        if (!vowels.includes(el)) {
-            sequenceConsonantsPassword.push(el);
         }
     }
 
